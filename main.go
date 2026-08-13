@@ -17,9 +17,14 @@ func main() {
 		log.Println("Error loading .env file")
 	}
 	config.ConnectDB()
-	server := gin.Default()
 
-	server.Use(cors.Default())
+	server := gin.Default()
+	server.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE","PATCH","OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 
 	//routes and handlers 
 	api := server.Group("/api")
