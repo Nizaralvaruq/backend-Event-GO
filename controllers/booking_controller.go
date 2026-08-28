@@ -70,7 +70,7 @@ func GetBookingbyUser(c *gin.Context){
 	var booking []models.Booking
 	userID, _ := c.Get("userID")
 
-	errBookingData := config.DB.Preload("Event").Preload("User",func(db *gorm.DB) *gorm.DB{
+	errBookingData := config.DB.Preload("Event").Preload("Event.User").Preload("User",func(db *gorm.DB) *gorm.DB{
 		return db.Select("id", "name", "email")
 	}).Where("user_id = ?", userID).Find(&booking).Error
 
